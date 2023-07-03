@@ -24,4 +24,5 @@
  Model legit does not know what a six looks like
 
  Plans:
+ Auto input image correction (scaling, rotation, norming) [probably another model to train for this purpose kekw]
  Further fine tuning using SOTA techniques (validation, boosting, etc.) [I gotta learn this too lol]
