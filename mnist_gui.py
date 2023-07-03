@@ -40,6 +40,8 @@ class ConvoNet(nn.Module):
 #constants
 GRID_SIZE = 28
 CELL_SIZE = 10
+BRIGHT_COLOR = 0.99
+DARK_COLOR = 0.7
 
 #load model
 MODEL = torch.load('mnist_classifier.pth')
@@ -74,15 +76,15 @@ class DrawingApp:
         for x_i in range(max(0, (x - half_width)), min(GRID_SIZE, (x + half_width + 1))):
             for y_i in range(max(0, (y - half_width)), min(GRID_SIZE, (y + half_width + 1))):
                 if (x_i, y_i) == (x, y):
-                    self.matrix[y_i][x_i] = 0.99
+                    self.matrix[y_i][x_i] = BRIGHT_COLOR
                 elif not self.matrix[y_i][x_i]: #don't override previous 1s
-                    self.matrix[y_i][x_i] = 0.7
+                    self.matrix[y_i][x_i] = DARK_COLOR
         self.canvas.create_rectangle(x1, y1, x2, y2, fill='gray70', outline='gray70')
         for x_i in range(max(0, (x - half_width)), min(GRID_SIZE, (x + half_width + 1))):
             for y_i in range(max(0, (y - half_width)), min(GRID_SIZE, (y + half_width + 1))):
                 cell_x = x_i * CELL_SIZE
                 cell_y = y_i * CELL_SIZE
-                if self.matrix[y_i][x_i] == 0.99:
+                if self.matrix[y_i][x_i] == BRIGHT_COLOR:
                     self.canvas.create_rectangle(cell_x, cell_y, 
                                                  cell_x + CELL_SIZE, cell_y + CELL_SIZE, 
                                                  fill='white', outline='white')
