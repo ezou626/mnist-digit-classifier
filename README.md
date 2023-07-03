@@ -1,7 +1,7 @@
 # mnist-digit-classifier
- A MNIST classifier and an accompanying GUI
+ A MNIST classifier and an accompanying GUI, built with Python 3.8.16, Pytorch, numpy
 
- Feel free to take the model and gui and run with it
+ Feel free to take the model and gui and run with it, just GPU GPL things etc. etc.
 
  The plan is gonna be to retrain this model with some failing testcases to improve performance
 
@@ -13,3 +13,6 @@
 
  No requirements.txt or conda environment.yaml etc.
  Model legit does not know what a six looks like
+
+ Plans:
+ Further fine tuning using SOTA techniques (validation, boosting, etc.) [I gotta learn this too lol]
