@@ -7,15 +7,13 @@ import tkinter as tk
 import torch
 import numpy as np
 import torch.nn as nn
-import matplotlib.pyplot as plt
-from PIL import Image
 from typing import List
 
 #evaluate correctness
 def get_prediction(tensor):
     return tensor.argmax(dim=-1)
 
-#convolutional neural network
+#convolutional neural network class for loading
 class ConvoNet(nn.Module):
     def __init__(self, inputs: int, outputs: int, features: List[int], pooling: List[int], taps: List[int]):
         super().__init__()
@@ -39,12 +37,15 @@ class ConvoNet(nn.Module):
         x = self.softmax(x)
         return x
 
-# Constants
+#constants
 GRID_SIZE = 28
 CELL_SIZE = 10
+
+#load model
 MODEL = torch.load('mnist_classifier.pth')
 MODEL.eval()
 
+#tkinter app class
 class DrawingApp:
     def __init__(self, root):
         self.root = root
@@ -61,6 +62,7 @@ class DrawingApp:
         self.label = tk.Label(root, text='Click the Identify button to have your digit identified.')
         self.label.pack()
 
+    #draw method (main brush with tapered edges)
     def draw(self, event):
         x = event.x // CELL_SIZE
         y = event.y // CELL_SIZE
@@ -72,7 +74,7 @@ class DrawingApp:
         for x_i in range(max(0, (x - half_width)), min(GRID_SIZE, (x + half_width + 1))):
             for y_i in range(max(0, (y - half_width)), min(GRID_SIZE, (y + half_width + 1))):
                 if (x_i, y_i) == (x, y):
-                    self.matrix[y_i][x_i] = 0.95
+                    self.matrix[y_i][x_i] = 0.99
                 elif not self.matrix[y_i][x_i]: #don't override previous 1s
                     self.matrix[y_i][x_i] = 0.7
         self.canvas.create_rectangle(x1, y1, x2, y2, fill='gray70', outline='gray70')
