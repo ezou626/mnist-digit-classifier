@@ -7,7 +7,16 @@
 
  This model is striaght of of MNIST training right now
 
- More specs/details upcoming
+ Details:
+ Miniconda
+ Python 3.8.16
+
+ How to run:
+ clone repository and cd into it
+ run `conda env create -f environment.yml` in commandline where you want your conda env created
+ run `conda activate name_of_environment` (not sure what this will be didn't test it)
+ run the python script mnist_gui.py (I think `python mnist_gui.py` should work)
+ happy drawing!
 
  Known Issues:
 
