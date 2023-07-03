@@ -82,7 +82,7 @@ class DrawingApp:
             for y_i in range(max(0, (y - half_width)), min(GRID_SIZE, (y + half_width + 1))):
                 cell_x = x_i * CELL_SIZE
                 cell_y = y_i * CELL_SIZE
-                if self.matrix[y_i][x_i] == 0.95:
+                if self.matrix[y_i][x_i] == 0.99:
                     self.canvas.create_rectangle(cell_x, cell_y, 
                                                  cell_x + CELL_SIZE, cell_y + CELL_SIZE, 
                                                  fill='white', outline='white')
