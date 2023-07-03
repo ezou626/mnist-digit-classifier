@@ -5,6 +5,7 @@ The basic framework of the GUI was ChatGPTed lol
 #imports
 import tkinter as tk
 import torch
+from torchvision import transforms
 import numpy as np
 import torch.nn as nn
 from typing import List
@@ -46,6 +47,11 @@ DARK_COLOR = 0.7
 #load model
 MODEL = torch.load('mnist_classifier.pth')
 MODEL.eval()
+
+#transform_image
+transform: transforms.Compose = transforms.Compose([
+        transforms.Normalize((0.1307,), (0.3081,))
+        ])
 
 #tkinter app class
 class DrawingApp:
@@ -97,7 +103,8 @@ class DrawingApp:
             
     def id(self):
         image = self.matrix.unsqueeze(0).unsqueeze(0)
-        prediction = get_prediction(MODEL.forward(image)).item()
+        normed_image = transform(image)
+        prediction = get_prediction(MODEL.forward(normed_image)).item()
         self.label.config(text = f'Your number is {prediction}. Clear to try another!')
 
 if __name__ == '__main__':
