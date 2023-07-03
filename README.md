@@ -20,7 +20,6 @@
 
  Known Issues:
 
- No requirements.txt or conda environment.yaml etc.
  Model legit does not know what a six looks like
 
  Plans:
