@@ -74,6 +74,12 @@ class PaintApp:
         self.image: Image.Image = Image.new('I', (28 * self.CELL_SIZE, 28 * self.CELL_SIZE), BLACK)
         self.drawer = ImageDraw.Draw(self.image)
 
+    # def save(self):
+    #     '''
+    #     Save image (testing only)
+    #     '''
+    #     self.image.save('./test.bmp')
+    
     def classify(self):
         '''
         Classify number
@@ -90,8 +96,6 @@ class PaintApp:
         self.label.config(text='Classifying...')
         prediction = torch.argmax(MODEL.forward(normed_image.unsqueeze(0))).item()
         self.label.config(text=f'Your number is {prediction}. Clear to try another!')
-
-
 
     def visualize_downsampling(self):
         '''
