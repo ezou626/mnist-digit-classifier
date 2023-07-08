@@ -5,7 +5,7 @@
 
  The plan is gonna be to retrain this model with some failing testcases to improve performance
 
- This model is striaght of of MNIST training right now
+ This model is striaght of of MNIST training right now (~96% accuracy on some test set)
 
  Details:
  Miniconda
