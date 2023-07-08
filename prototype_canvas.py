@@ -3,14 +3,27 @@ import numpy as np
 from tkinter import *
 from PIL import Image, ImageDraw
 import io
+from torch import Tensor
+from torch.nn import AvgPool2d
+from standard_cnn import *
+from torchvision import transforms
 
 '''
 Prototyping app to create a better drawing brush for the real thing
 '''
 
 #color constants
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
+WHITE = 1
+BLACK = 0
+
+#load model
+MODEL = torch.load('mnist_classifier.pth')
+MODEL.eval()
+
+#transform_image
+transform: transforms.Compose = transforms.Compose([
+        transforms.Normalize((0.1307,), (0.3081,))
+        ])
 
 class PaintApp:
     
@@ -19,7 +32,7 @@ class PaintApp:
         self.root = root
         
         self.CELL_SIZE = cell_size
-        self.WIDTH = 24
+        self.WIDTH = int(cell_size * 2.5)
         
         self.canvas = tk.Canvas(self.root, 
                                 bg = 'black', 
@@ -30,13 +43,23 @@ class PaintApp:
         self.clear_button = tk.Button(self.root, text='Clear', command=self.clear)
         self.clear_button.pack()
         
-        self.image: Image.Image = Image.new('RGB', (28 * self.CELL_SIZE, 28 * self.CELL_SIZE), BLACK)
+        self.image: Image.Image = Image.new('I', (28 * self.CELL_SIZE, 28 * self.CELL_SIZE), BLACK)
         self.drawer = ImageDraw.Draw(self.image)
         
         self.canvas.bind('<B1-Motion>', self.paint)
         
         self.save_button = tk.Button(self.root, text='Save', command=self.save)
         self.save_button.pack()
+        
+        self.classify_button = tk.Button(self.root, text='Classify', command=self.classify)
+        self.classify_button.pack()
+        
+        #response label
+        self.label = tk.Label(root, text='Click the Identify button to have your digit identified.')
+        self.label.pack()
+        
+        self.POOL = AvgPool2d((self.CELL_SIZE, self.CELL_SIZE), (self.CELL_SIZE, self.CELL_SIZE))
+        self.POOL.eval()
     
     def paint(self, event):
         '''
@@ -53,9 +76,25 @@ class PaintApp:
         Clear drawing
         '''
         self.canvas.delete("all")
+        self.image: Image.Image = Image.new('I', (28 * self.CELL_SIZE, 28 * self.CELL_SIZE), BLACK)
+        self.drawer = ImageDraw.Draw(self.image)
     
     def save(self):
+        '''
+        Save image (testing only)
+        '''
         self.image.save('./test.bmp')
+        
+    def classify(self):
+        '''
+        Classify number
+        '''
+        original_image = Tensor(np.asarray(self.image).copy())
+        downsampled_image = self.POOL(original_image.unsqueeze(0).unsqueeze(0))
+        normed_image = transform(downsampled_image)
+        self.label.config(text = f'Classifying...')
+        prediction = get_prediction(MODEL.forward(normed_image)).item()
+        self.label.config(text = f'Your number is {prediction}. Clear to try another!')
 
 if __name__ == '__main__':
     
