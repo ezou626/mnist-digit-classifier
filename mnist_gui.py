@@ -48,8 +48,8 @@ class PaintApp:
         
         self.canvas.bind('<B1-Motion>', self.paint)
         
-        self.save_button = tk.Button(self.root, text='Save', command=self.save)
-        self.save_button.pack()
+        # self.save_button = tk.Button(self.root, text='Save', command=self.save)
+        # self.save_button.pack()
         
         self.classify_button = tk.Button(self.root, text='Classify', command=self.classify)
         self.classify_button.pack()
@@ -79,11 +79,11 @@ class PaintApp:
         self.image: Image.Image = Image.new('I', (28 * self.CELL_SIZE, 28 * self.CELL_SIZE), BLACK)
         self.drawer = ImageDraw.Draw(self.image)
     
-    def save(self):
-        '''
-        Save image (testing only)
-        '''
-        self.image.save('./test.bmp')
+    # def save(self):
+    #     '''
+    #     Save image (testing only)
+    #     '''
+    #     self.image.save('./test.bmp')
         
     def classify(self):
         '''
